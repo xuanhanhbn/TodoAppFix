@@ -1,15 +1,19 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { Form } from "./components/Form";
 import { Todos } from "./components/Todos";
 import {useDispatch, useSelector} from 'react-redux';
-import {deleteAll} from './redux/todoapp/actions';
+import {deleteAll, getListProduct} from './redux/todoapp/actions';
 
 function App() {
   // dispatch function to dispatch an action
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getListProduct());
+  }, [dispatch])
+
   // getting todos state for conditional rendering
-  const todos = useSelector((state)=>state.operationsReducer);
+  const todos = useSelector((state)=>state.operationsReducer) ?? [];
 
   // update form visibility state
   const [editFormVisibility, setEditFormVisibility]=useState(false);
@@ -34,11 +38,11 @@ function App() {
       <h1 className="text-center">TODO-APP USING REACT-REDUX</h1>
       <Form editFormVisibility={editFormVisibility} editTodo={editTodo}
       cancelUpdate={cancelUpdate}/>
-      <Todos handleEditClick={handleEditClick} editFormVisibility={editFormVisibility}/>
-      {todos.length > 1 && (
+      {/* <Todos handleEditClick={handleEditClick} editFormVisibility={editFormVisibility}/> */}
+      {/* {todos.length > 1 && (
         <button className='btn btn-danger btn-md delete-all'
         onClick={()=>dispatch(deleteAll())}>DELETE ALL</button>
-      )}
+      )} */}
     </div>
   );
 }
